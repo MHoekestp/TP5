@@ -80,7 +80,22 @@ public class DAO {
 	 * @throws DAOException
 	 */
 	public int numberOfOrdersForCustomer(int customerId) throws DAOException {
-		throw new UnsupportedOperationException("Pas encore implémenté");
+            		int result = 0;
+
+		String sql = "SELECT COUNT(CUSTOMER_ID) as orders FROM PURCHASE_ORDER WHERE CUSTOMER_ID = ?";
+                try (Connection connection = myDataSource.getConnection();
+                        PreparedStatement stmt = connection.prepareStatement(sql)){
+                    stmt.setInt(1, customerId);
+                    ResultSet rs = stmt.executeQuery();
+                    rs.next();
+                    result = rs.getInt("orders");
+                    
+                    
+                } catch (SQLException ex) {
+			Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+			throw new DAOException(ex.getMessage());
+		}
+		return result;
 	}
 
 	/**
@@ -91,7 +106,21 @@ public class DAO {
 	 * @throws DAOException
 	 */
 	CustomerEntity findCustomer(int customerID) throws DAOException {
-		throw new UnsupportedOperationException("Pas encore implémenté");
+            CustomerEntity result;
+            String sql = "SELECT * FROM CUSTOMER WHERE CUSTOMER_ID = ?";
+                try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)){
+                    stmt.setInt(1, customerID);
+                    ResultSet rs = stmt.executeQuery();
+                    rs.next();
+                    result = rs.getInt("orders");
+                    
+                    
+                } catch (SQLException ex) {
+			Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+			throw new DAOException(ex.getMessage());
+		}
+                
 	}
 
 	/**
